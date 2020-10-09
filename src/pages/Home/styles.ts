@@ -32,8 +32,8 @@ export const ModalView = styled.View`
 
 export const CloseButton = styled(RectButton)`
   position: absolute;
-  top: 15;
-  right: 15;
+  top: 15px;
+  right: 15px;
 `;
 
 export const ModalText = styled.Text`
