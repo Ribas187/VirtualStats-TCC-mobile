@@ -1,8 +1,13 @@
 import React, { useCallback, useState } from 'react';
-import { ActivityIndicator, Alert, Text } from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../../components/Header';
+import PatientResume from '../../components/PatientResume';
 import { usePatients } from '../../hooks/patient';
 import api from '../../services/api';
 
@@ -24,7 +29,7 @@ const Home: React.FC = () => {
   const [cod, setCod] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { addPatient, list } = usePatients();
+  const { addPatient } = usePatients();
 
   const handleAddCod = useCallback(() => {
     if (!cod) {
@@ -54,26 +59,41 @@ const Home: React.FC = () => {
       <Header title="Consultar Paciente" />
 
       <Wrapper>
-        <Text>Lista</Text>
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
+        <PatientResume />
       </Wrapper>
 
       <Modal isVisible={isModalVisible} backdropOpacity={0.3}>
         <ModalWrapper>
-          <CloseButton onPress={() => setIsModalVisible(false)}>
-            <Icon name="x" size={30} color="#fff" />
-          </CloseButton>
+          <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+            <CloseButton>
+              <Icon name="x" size={30} color="#fff" />
+            </CloseButton>
+          </TouchableWithoutFeedback>
           <ModalView>
             <ModalText>Insira o Código:</ModalText>
 
             <CodInput onChangeText={e => setCod(e)} value={cod} />
 
-            <ModalAddButton onPress={handleAddCod} enabled={!loading}>
-              {!loading ? (
-                <ModalAddButtonText>Concluir</ModalAddButtonText>
-              ) : (
-                <ActivityIndicator />
-              )}
-            </ModalAddButton>
+            <TouchableWithoutFeedback onPress={handleAddCod} disabled={loading}>
+              <ModalAddButton>
+                {!loading ? (
+                  <ModalAddButtonText>Concluir</ModalAddButtonText>
+                ) : (
+                  <ActivityIndicator />
+                )}
+              </ModalAddButton>
+            </TouchableWithoutFeedback>
           </ModalView>
         </ModalWrapper>
       </Modal>

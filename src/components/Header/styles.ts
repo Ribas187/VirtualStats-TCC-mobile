@@ -21,4 +21,6 @@ export const Title = styled.Text`
 
 export const LeftButton = styled(RectButton)``;
 
-export const RightButton = styled(RectButton)``;
+export const RightButton = styled(RectButton)`
+  min-width: 30px;
+`;

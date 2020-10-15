@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Home from '../pages/Home';
+import Status from '../pages/Status';
 
 const StackRoutes: React.FC = () => {
   const AppStack = createStackNavigator();
@@ -10,6 +11,7 @@ const StackRoutes: React.FC = () => {
   return (
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
       <AppStack.Screen name="Home" component={Home} />
+      <AppStack.Screen name="Status" component={Status} />
     </AppStack.Navigator>
   );
 };

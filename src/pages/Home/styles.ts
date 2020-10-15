@@ -6,7 +6,9 @@ export const Container = styled.View`
   background: #f9f9f9;
 `;
 
-export const Wrapper = styled.View`
+export const Wrapper = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+})`
   padding: 20px 14px;
   flex: 1;
 `;
@@ -51,6 +53,7 @@ export const CodInput = styled.TextInput`
   padding: 0 10px;
   color: #fff;
   font-size: 15px;
+  font-family: 'Roboto-Regular';
 `;
 
 export const ModalAddButton = styled(RectButton)`
