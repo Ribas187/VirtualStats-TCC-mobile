@@ -1,6 +1,7 @@
 import { DrawerActions, useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import Icon from 'react-native-vector-icons/Feather';
+import IconMaterial from 'react-native-vector-icons/MaterialIcons';
 
 import { Container, Title, LeftButton, RightButton } from './styles';
 
@@ -9,10 +10,14 @@ interface IHeaderProps {
   left?: {
     back?: boolean;
   };
+  right?: {
+    onPress(): void;
+    history?: boolean;
+  };
 }
 
 const Header: React.FC<IHeaderProps> = props => {
-  const { title, left = {} } = props;
+  const { title, left = {}, right } = props;
 
   const navigation = useNavigation();
 
@@ -35,7 +40,11 @@ const Header: React.FC<IHeaderProps> = props => {
 
       <Title>{title}</Title>
 
-      <RightButton />
+      <RightButton onPress={right?.onPress}>
+        {right?.history && (
+          <IconMaterial name="history" size={30} color="#fff" />
+        )}
+      </RightButton>
     </Container>
   );
 };

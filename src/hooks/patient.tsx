@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 
-interface Patient {
+export interface Patient {
   cod: string;
 }
 

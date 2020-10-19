@@ -29,7 +29,7 @@ const Home: React.FC = () => {
   const [cod, setCod] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const { addPatient } = usePatients();
+  const { addPatient, list } = usePatients();
 
   const handleAddCod = useCallback(() => {
     if (!cod) {
@@ -51,6 +51,7 @@ const Home: React.FC = () => {
       })
       .finally(() => {
         setLoading(false);
+        setCod('');
       });
   }, [addPatient, cod]);
 
@@ -58,20 +59,11 @@ const Home: React.FC = () => {
     <Container>
       <Header title="Consultar Paciente" />
 
-      <Wrapper>
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-        <PatientResume />
-      </Wrapper>
+      <Wrapper
+        data={list}
+        keyExtractor={patient => patient.cod}
+        renderItem={({ item }) => <PatientResume cod={item.cod} />}
+      />
 
       <Modal isVisible={isModalVisible} backdropOpacity={0.3}>
         <ModalWrapper>

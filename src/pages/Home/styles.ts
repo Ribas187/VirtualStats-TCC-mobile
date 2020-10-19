@@ -1,15 +1,17 @@
 import { RectButton } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
+import { Patient } from '../../hooks/patient';
 
 export const Container = styled.View`
   flex: 1;
   background: #f9f9f9;
 `;
 
-export const Wrapper = styled.ScrollView.attrs({
+export const Wrapper = styled(FlatList as new () => FlatList<Patient>).attrs({
   showsVerticalScrollIndicator: false,
 })`
-  padding: 20px 14px;
+  padding: 10px 14px;
   flex: 1;
 `;
 

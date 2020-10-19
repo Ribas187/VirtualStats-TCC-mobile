@@ -1,5 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { format, differenceInYears, parseISO } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
+import { ActivityIndicator } from 'react-native';
+import api from '../../services/api';
 
 import {
   Container,
@@ -13,24 +17,81 @@ import {
   LastUpdateValue,
 } from './styles';
 
-const PatientResume: React.FC = () => {
+interface IProps {
+  cod: string;
+}
+
+interface PatientInfo {
+  nome: string;
+  nascimento: string;
+  estado: string;
+  lastUpdate: string;
+}
+
+const PatientResume: React.FC<IProps> = ({ cod }) => {
+  const [patientInfo, setPatientInfo] = useState<PatientInfo>(
+    {} as PatientInfo,
+  );
+  const [loading, setLoading] = useState(true);
+
   const navigation = useNavigation();
 
+  useEffect(() => {
+    async function loadData(): Promise<void> {
+      setLoading(true);
+
+      const response = await api.get(`/stats-patient/last/${cod}`);
+
+      const { estado, hora, paciente } = response.data;
+
+      const info = {
+        estado,
+        nascimento: paciente.nascimento,
+        lastUpdate: hora,
+        nome: paciente.nome,
+      };
+
+      setPatientInfo(info);
+      setLoading(false);
+    }
+
+    loadData();
+  }, [cod]);
+
+  const timeFormatted = useMemo(() => {
+    const dateFormatted = parseISO(patientInfo.lastUpdate);
+
+    return patientInfo.lastUpdate
+      ? format(dateFormatted, "dd/MM/yy '-' HH:mm", { locale: ptBR })
+      : '';
+  }, [patientInfo.lastUpdate]);
+
+  const age = useMemo(() => {
+    const dateFormatted = parseISO(patientInfo.nascimento);
+    return differenceInYears(new Date(), dateFormatted);
+  }, [patientInfo.nascimento]);
+
   return (
-    <Container onPress={() => navigation.navigate('Status')}>
-      <Name>Ribas paciente</Name>
+    <Container onPress={() => navigation.navigate('Status', { cod })}>
+      {!loading ? (
+        <>
+          <Name>{patientInfo.nome}</Name>
 
-      <Info>
-        <LeftArea>
-          <Age>17 anos</Age>
-          <State>Estado: Internado</State>
-        </LeftArea>
+          <Info>
+            <LeftArea>
+              <Age>{age} anos</Age>
+              <State>Estado: {patientInfo.estado}</State>
+            </LeftArea>
 
-        <RightArea>
-          <LastUpdate>Última atualização:</LastUpdate>
-          <LastUpdateValue>18/07/20 - 15:29</LastUpdateValue>
-        </RightArea>
-      </Info>
+            <RightArea>
+              <LastUpdate>Última atualização:</LastUpdate>
+              <LastUpdateValue>{timeFormatted}</LastUpdateValue>
+            </RightArea>
+          </Info>
+        </>
+      ) : (
+        <ActivityIndicator color="#0B74BC" />
+      )}
     </Container>
   );
 };

@@ -6,8 +6,9 @@ export const Container = styled(RectButton).attrs({
 })`
   background: #fff9fb;
   padding: 18px 20px;
+  min-height: 86px;
   border-radius: 8px;
-  margin: 0 5px 20px;
+  margin: 10px 5px 10px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.161);
 `;
 
