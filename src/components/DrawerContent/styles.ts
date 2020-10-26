@@ -10,8 +10,19 @@ export const Content = styled.View`
   flex: 1;
 `;
 
+export const LogoView = styled.View`
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+`;
+
+export const ImageLogo = styled.Image`
+  height: 54px;
+`;
+
 export const DrawerSection = styled(Drawer.Section)`
-  margin-top: 40px;
+  border-top-color: #f4f4f4;
+  border-top-width: 1px;
 `;
 
 export const DrawerFooter = styled(Drawer.Section)`

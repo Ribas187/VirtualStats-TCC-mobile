@@ -28,8 +28,7 @@ const Routes: React.FC = () => {
     verify();
   }, []);
 
-  // return firstTime ? <FirstRoutes /> : <AppRoutes />;
-  return <AppRoutes />;
+  return firstTime ? <FirstRoutes /> : <AppRoutes />;
 };
 
 export default Routes;

@@ -6,8 +6,16 @@ import {
   DrawerItem,
 } from '@react-navigation/drawer';
 import Icon from 'react-native-vector-icons/Feather';
+import logoImg from '../../assets/images/logo-white.png';
 
-import { Container, DrawerFooter, Content, DrawerSection } from './styles';
+import {
+  Container,
+  DrawerFooter,
+  Content,
+  DrawerSection,
+  LogoView,
+  ImageLogo,
+} from './styles';
 
 const colors = {
   white: '#fff',
@@ -19,6 +27,9 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
     <Container>
       <DrawerContentScrollView {...props}>
         <Content>
+          <LogoView>
+            <ImageLogo source={logoImg} resizeMode="contain" />
+          </LogoView>
           <DrawerSection>
             <DrawerItem
               icon={({ size }) => (
