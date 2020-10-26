@@ -65,7 +65,7 @@ const DrawerContent: React.FC<DrawerContentComponentProps> = props => {
           )}
           inactiveTintColor={colors.white}
           label="Configurações"
-          onPress={() => navigation.navigate('Settings')}
+          onPress={() => console.log('Config')}
         />
       </DrawerFooter>
     </Container>
