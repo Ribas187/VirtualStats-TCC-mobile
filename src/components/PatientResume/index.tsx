@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { format, differenceInYears, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { ActivityIndicator } from 'react-native';

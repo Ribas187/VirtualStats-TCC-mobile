@@ -7,6 +7,7 @@ import Status from '../pages/Status';
 import DrawerContent from '../components/DrawerContent';
 import About from '../pages/About';
 import Contact from '../pages/Contact';
+import History from '../pages/History';
 
 const StackRoutes: React.FC = () => {
   const AppStack = createStackNavigator();
@@ -15,6 +16,7 @@ const StackRoutes: React.FC = () => {
     <AppStack.Navigator screenOptions={{ headerShown: false }}>
       <AppStack.Screen name="Home" component={Home} />
       <AppStack.Screen name="Status" component={Status} />
+      <AppStack.Screen name="History" component={History} />
     </AppStack.Navigator>
   );
 };

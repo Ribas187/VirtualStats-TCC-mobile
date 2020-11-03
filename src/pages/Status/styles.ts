@@ -98,3 +98,14 @@ export const GreyText = styled.Text`
 export const ObsView = styled.View`
   margin-bottom: 10px;
 `;
+
+export const RemoveButton = styled.TouchableOpacity`
+  align-self: center;
+  margin-top: 15px;
+`;
+
+export const RemoveButtonText = styled.Text`
+  font-family: 'Roboto-Medium';
+  font-size: 14px;
+  color: #0b74bc;
+`;

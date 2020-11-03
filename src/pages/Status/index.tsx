@@ -1,10 +1,11 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { differenceInYears, format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../../components/Header';
+import { usePatients } from '../../hooks/patient';
 import api from '../../services/api';
 
 import {
@@ -26,6 +27,8 @@ import {
   ObsView,
   InfoView2,
   Scroll,
+  RemoveButton,
+  RemoveButtonText,
 } from './styles';
 
 interface Hospital {
@@ -55,20 +58,24 @@ const Status: React.FC = () => {
 
   const navigation = useNavigation();
   const { params } = useRoute();
-  const { cod } = params as { cod: string };
+  const { cod, id } = params as { cod: string; id: number };
+
+  const { removePatient } = usePatients();
 
   useEffect(() => {
     async function loadData(): Promise<void> {
       setLoading(true);
 
-      const response = await api.get(`/stats-patient/last/${cod}`);
+      const url = id ? `/stats/${cod}/${id}` : `/stats-patient/last/${cod}`;
+
+      const response = await api.get(url);
 
       setStatusInfo(response.data);
       setLoading(false);
     }
 
     loadData();
-  }, [cod]);
+  }, [cod, id]);
 
   const timeFormatted = useMemo(() => {
     const dateFormatted = parseISO(statusInfo.hora);
@@ -86,16 +93,23 @@ const Status: React.FC = () => {
     return differenceInYears(new Date(), dateFormatted);
   }, [statusInfo]);
 
+  const handleHistoryNavigate = useCallback(() => {
+    navigation.navigate('History', { cod });
+  }, [navigation, cod]);
+
+  const handleRemovePatient = useCallback(async () => {
+    await removePatient(cod);
+    navigation.navigate('Home');
+  }, [cod, removePatient, navigation]);
+
   return (
     <Container>
       <Header
-        title="Status"
+        title={id ? 'Ver Mais' : 'Status'}
         left={{ back: true }}
         right={{
           history: true,
-          onPress: () => {
-            console.log('histórico');
-          },
+          onPress: handleHistoryNavigate,
         }}
       />
 
@@ -158,6 +172,10 @@ const Status: React.FC = () => {
                 <GreyText>{statusInfo.observacao}</GreyText>
               </ObsView>
             </DetailsCard>
+
+            <RemoveButton onPress={handleRemovePatient}>
+              <RemoveButtonText>Excluir paciente</RemoveButtonText>
+            </RemoveButton>
           </Wrapper>
         </Scroll>
       ) : (
