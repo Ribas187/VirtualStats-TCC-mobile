@@ -21,7 +21,7 @@ const Contact: React.FC = () => {
   const sendMail = useCallback(() => {
     MailComposer.composeAsync({
       subject: 'Contato VirtualStats',
-      recipients: ['virtualstats@gmail.com'],
+      recipients: ['virtualstatsapp@gmail.com'],
     });
   }, []);
 
@@ -41,7 +41,7 @@ const Contact: React.FC = () => {
             <ContactView>
               <WhiteText>Email: </WhiteText>
               <EmailLink onPress={sendMail}>
-                <EmailText>virtualstats@gmail.com</EmailText>
+                <EmailText>virtualstatsapp@gmail.com</EmailText>
               </EmailLink>
             </ContactView>
           </CardBlue>
