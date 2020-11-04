@@ -48,6 +48,7 @@ const PatientResume: React.FC<IProps> = ({ cod }) => {
     async function loadData(): Promise<void> {
       setLoading(true);
 
+      if (!data) return;
       const { estado, hora, paciente } = data;
 
       const info = {

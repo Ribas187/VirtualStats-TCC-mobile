@@ -1,7 +1,9 @@
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import Clipboard from '@react-native-community/clipboard';
+import { Snackbar } from 'react-native-paper';
 import { differenceInYears, format, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../../components/Header';
@@ -19,6 +21,9 @@ import {
   InfoView,
   BlackText,
   WhiteText,
+  CodeView,
+  CodeButton,
+  CodeText,
   TitleView,
   DetailsText,
   TimeText,
@@ -55,6 +60,7 @@ interface StatusInfo {
 const Status: React.FC = () => {
   const [statusInfo, setStatusInfo] = useState<StatusInfo>({} as StatusInfo);
   const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const navigation = useNavigation();
   const { params } = useRoute();
@@ -96,6 +102,15 @@ const Status: React.FC = () => {
   const handleHistoryNavigate = useCallback(() => {
     navigation.navigate('History', { cod });
   }, [navigation, cod]);
+
+  const onToggleSnackBar = useCallback(() => setVisible(!visible), [visible]);
+
+  const onDismissSnackBar = useCallback(() => setVisible(false), []);
+
+  const handleCopyCode = useCallback(() => {
+    Clipboard.setString(cod);
+    onToggleSnackBar();
+  }, [cod, onToggleSnackBar]);
 
   const handleRemovePatient = useCallback(async () => {
     await removePatient(cod);
@@ -153,6 +168,13 @@ const Status: React.FC = () => {
               </CardRow>
             </ProfileCard>
 
+            <CodeView>
+              <CodeButton onPress={handleCopyCode}>
+                <CodeText>Copiar código</CodeText>
+                <Icon name="copy" size={20} color="#37474f" />
+              </CodeButton>
+            </CodeView>
+
             <TitleView>
               <DetailsText>Detalhes:</DetailsText>
               <TimeText>{timeFormatted}</TimeText>
@@ -185,6 +207,15 @@ const Status: React.FC = () => {
           style={{ marginTop: 100 }}
         />
       )}
+
+      <Snackbar
+        visible={visible}
+        onDismiss={onDismissSnackBar}
+        duration={1000}
+        style={{ backgroundColor: '#0b74bc' }}
+      >
+        Código copiado
+      </Snackbar>
     </Container>
   );
 };

@@ -1,3 +1,4 @@
+import { RectButton } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -56,11 +57,29 @@ export const WhiteText = styled.Text`
   font-size: 15px;
 `;
 
+export const CodeView = styled.View`
+  margin: 10px 0;
+`;
+
+export const CodeButton = styled(RectButton)`
+  margin: 10px 0;
+  flex-direction: row;
+  align-items: center;
+  margin-right: auto;
+`;
+
+export const CodeText = styled.Text`
+  font-family: 'Roboto-Medium';
+  font-size: 16px;
+  margin-right: 10px;
+  color: #37474f;
+`;
+
 export const TitleView = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0 18px;
+  margin: 0 0 18px;
 `;
 
 export const DetailsText = styled.Text`
