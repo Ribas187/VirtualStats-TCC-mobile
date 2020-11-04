@@ -93,6 +93,7 @@ export const GreyText = styled.Text`
   font-family: 'Roboto-Medium';
   font-size: 15px;
   color: #455a64;
+  flex: 1;
 `;
 
 export const ObsView = styled.View`

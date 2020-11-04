@@ -6,6 +6,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
+import { Alert } from 'react-native';
 
 export interface Patient {
   cod: string;
@@ -42,6 +43,13 @@ export const PatientsProvider: React.FC = ({ children }) => {
 
   const addPatient = useCallback(
     async (cod: string) => {
+      const exists = data.findIndex(p => p.cod === cod);
+
+      if (exists >= 0) {
+        Alert.alert('Erro', 'Paciente já está adicionado');
+        return;
+      }
+
       const newData = [...data, { cod }];
 
       await AsyncStorage.setItem(

@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { format, differenceInYears, parseISO } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import { ActivityIndicator } from 'react-native';
+import useSWR from 'swr';
 import api from '../../services/api';
 
 import {
@@ -36,13 +37,18 @@ const PatientResume: React.FC<IProps> = ({ cod }) => {
 
   const navigation = useNavigation();
 
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const fetcher = (url: string) => api.get(url).then(response => response.data);
+
+  const { data } = useSWR(`/stats-patient/last/${cod}`, fetcher, {
+    refreshInterval: 10000,
+  });
+
   useEffect(() => {
     async function loadData(): Promise<void> {
       setLoading(true);
 
-      const response = await api.get(`/stats-patient/last/${cod}`);
-
-      const { estado, hora, paciente } = response.data;
+      const { estado, hora, paciente } = data;
 
       const info = {
         estado,
@@ -56,7 +62,7 @@ const PatientResume: React.FC<IProps> = ({ cod }) => {
     }
 
     loadData();
-  }, [cod]);
+  }, [cod, data]);
 
   const timeFormatted = useMemo(() => {
     const dateFormatted = parseISO(patientInfo.lastUpdate);
